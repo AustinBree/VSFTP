@@ -88,7 +88,7 @@ public class Client
                     FileOutputStream junior = new FileOutputStream(filename);
                     
                     //timeout after 30 seconds
-                    socket.setSoTimeout(5000);
+                    socket.setSoTimeout(30000);
                     try{
                         System.out.print("S: ");
                         while(!(serverSpeak.equals("*"))){
@@ -96,7 +96,7 @@ public class Client
                             if(serverSpeak.equals("*"))
                             break;
                             System.out.println(serverSpeak);
-                            junior.write((serverSpeak + "\n").getBytes());
+                            junior.write(serverSpeak.getBytes());
                         }
                     } 
                     catch (InterruptedIOException i){
