@@ -66,6 +66,11 @@ public class Server
                             clientSendy.writeUTF("-You must enter a username");
                             clientSendy.writeUTF("*");
                         }
+                        else if(authent[0] == 1){
+                            System.out.println("-You have already entered your username. Enter a valid password.");
+                            clientSendy.writeUTF("-You have already entered your username. Enter a valid password.");
+                            clientSendy.writeUTF("*");
+                        }
                         else{
                             if(USER(line.substring(5)))
                                 authent[0] = 1;
@@ -282,10 +287,11 @@ public class Server
                 clientSendy.writeUTF("#" + fileIfFound.length());
                 clientSendy.writeUTF("*"); 
                 
-                line = in.readUTF(); 
-                System.out.println(line);
-                command = line.substring(0,4);
                 while(true) {
+                    line = in.readUTF(); 
+                    System.out.println(line);
+                    command = line.substring(0,4);
+
                     if(command.equals("STOP")) {
                         System.out.println("+Ok, RETR aborted");
                         clientSendy.writeUTF("+Ok, RETR aborted");
