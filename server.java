@@ -303,7 +303,7 @@ public class Server
                         while(input.hasNextLine()) {
                             packet = input.nextLine();
                             System.out.println(packet);
-                            clientSendy.writeUTF(packet);
+                            clientSendy.writeUTF(packet + "\n");
                         }
                         clientSendy.writeUTF("*"); 
                         input.close();
