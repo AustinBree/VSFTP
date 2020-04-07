@@ -2,6 +2,7 @@
 import java.net.*; 
 import java.io.*; 
 import java.util.Scanner;
+import java.net.InetAddress;
   
 public class Server 
 { 
@@ -333,8 +334,14 @@ public class Server
         }
     }
   
-    public static void main(String args[]) 
-    { 
+    public static void main(String args[]) {
+        try{
+            InetAddress ip = InetAddress.getLocalHost();
+            System.out.println("The IP address of the server is: " + ip);
+        }
+         catch (UnknownHostException e) {
+            e.printStackTrace();
+    }
         Server server = new Server(50001); 
     } 
 } 
