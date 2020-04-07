@@ -18,6 +18,9 @@ public class Server
     //data transmission
     private static String line     = "";
     private static String command  = ""; 
+
+    //let's say we said done after retrieve
+    private static boolean doneInRetrieve = false;
   
     // constructor with port 
     public Server(int port) 
@@ -53,13 +56,20 @@ public class Server
                     System.out.print("S: ");
                     command = line.substring(0,4);//extract first four letters
 
-                    if(line.equals("DONE"))
+                    if(line.equals("DONE") || doneInRetrieve)
                         break;
 
                     //initial authentication sequence
                     if(command.equals("USER")){
-                        if(USER(line.substring(5)))
-                            authent[0] = 1;
+                        if(line.length() < 5){
+                            System.out.println("-You must enter a username");
+                            clientSendy.writeUTF("-You must enter a username");
+                            clientSendy.writeUTF("*");
+                        }
+                        else{
+                            if(USER(line.substring(5)))
+                                authent[0] = 1;
+                        }
                         continue;
                     }
                     else if(authent[0] == 0){
@@ -69,8 +79,15 @@ public class Server
                         continue;
                     } 
                     else if(command.equals("PASS")){
-                        if(PASS(line.substring(5)))
-                            authent[1] = 1;
+                        if(line.length() < 5){
+                            System.out.println("-You must enter a password");
+                            clientSendy.writeUTF("-You must enter a password");
+                            clientSendy.writeUTF("*");
+                        }
+                        else{
+                            if(PASS(line.substring(5)))
+                                authent[1] = 1;
+                        }    
                         continue;    
                     }  
                     else if(authent[1] == 0){
@@ -86,10 +103,21 @@ public class Server
                             LIST();
                             break;
                         case "KILL":
-                            KILL(line.substring(5));
+                            if(line.length() < 5){
+                                System.out.println("-You must enter a file to delete");
+                                clientSendy.writeUTF("-You must enter a file to delete");
+                                clientSendy.writeUTF("*");
+                            }
+                            else
+                                KILL(line.substring(5));
                             break;
                         case "RETR":
-                            RETR(line.substring(5));
+                            if(line.length() < 5){
+                                System.out.println("-You must enter a file to retrieve");
+                                clientSendy.writeUTF("-You must enter a file to retrieve");
+                            }
+                            else
+                                RETR(line.substring(5));
                             break;
                         default:
                             System.out.println("-Invalid command");
@@ -272,6 +300,11 @@ public class Server
                             clientSendy.writeUTF(packet);
                         }
                         clientSendy.writeUTF("*"); 
+                        input.close();
+                        return;
+                    }
+                    else if(command.equals("DONE")) {
+                        doneInRetrieve = true;
                         return;
                     }
                     else {
