@@ -308,8 +308,8 @@ public class Server
                         return;
                     }
                     else {
-                        System.out.println("-Invalid input received");
-                        clientSendy.writeUTF("-Invalid input received");
+                        System.out.println("-Must input SEND, STOP, or DONE");
+                        clientSendy.writeUTF("-Must input SEND, STOP, or DONE");
                         clientSendy.writeUTF("*"); 
                     }
                 }
