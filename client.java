@@ -2,6 +2,7 @@
 import java.net.*; 
 import java.io.*; 
 import java.util.concurrent.TimeUnit;
+import java.util.Scanner;
   
 public class Client 
 { 
@@ -137,6 +138,10 @@ public class Client
 
     public static void main(String args[]) 
     { 
-        Client client = new Client("127.0.0.1", 50001); 
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Please enter the IP address of the server application");
+        String boop = scan.next();
+
+        Client client = new Client(boop, 50001); 
     } 
 } 
