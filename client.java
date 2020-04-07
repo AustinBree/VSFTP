@@ -75,7 +75,13 @@ public class Client
 
                 //file reading commands
                 if(command.equals("RETR")){
-                    filename = line.substring(5);
+                    if(line.length() < 5){
+                        serverSpeak = serverTalky.readUTF();
+                        System.out.println("S: " + serverSpeak);
+                        continue;
+                    }
+                    else    
+                        filename = line.substring(5);
                 }
 
                 else if(command.equals("SEND")){
